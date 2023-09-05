@@ -14,6 +14,7 @@ import Mathlib.Tactic.Ring
 
 set_option autoImplicit false
 set_option tactic.hygienic false
+set_option linter.unusedVariables false
 
 open Lean
 open Lean.Parser
