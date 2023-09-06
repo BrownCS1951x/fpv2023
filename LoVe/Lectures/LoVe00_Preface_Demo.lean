@@ -16,7 +16,7 @@ A selection of proof assistants, classified by logical foundations:
 
 * set theory: Isabelle/ZF, Metamath, Mizar;
 * simple type theory: HOL4, HOL Light, Isabelle/HOL;
-* **dependent type theory**: Agda, Coq, **Lean**, Matita, PVS.
+* **dependent type theory**: Agda, Coq, **Lean**, Matita, PVS, Idris
 
 
 ## Success Stories
@@ -77,9 +77,7 @@ one demo, one exercise sheet, and one homework.
 * Demos will be covered in class. These are "lecture notes."
   We'll post skeletons of the demos before class, and completed demos after class.
 
-* Exercises are ungraded practice problems for you to use to learn.
-  Sometimes we'll cover exercise problems in class. Occasionally we may run 
-  class like a lab, giving you time to work on exercise problems with us around.
+* Exercises are for weekly lab sessions run by the TAs.
 
 * Homeworks are for you to do on your own, and submit via Gradescope.
 
@@ -114,5 +112,66 @@ Lean is our vehicle, not an end in itself.
 
 open Nat 
 
+-- here's a proof that there are infinitely many primes, as a mathematical theorem
+
 theorem infinitude_of_primes : ∀ N, ∃ p ≥ N, Nat.Prime p := by 
-  sorry
+
+  intro M 
+  let F := M ! + 1
+  let q := minFac F 
+  use q 
+
+  have qPrime : Nat.Prime q 
+  { refine' minFac_prime _
+    have hn : M ! > 0 := factorial_pos M 
+    linarith }
+
+  apply And.intro 
+
+  { by_contra hqM
+    have h1 : q ∣ M ! + 1 := minFac_dvd F
+    have hqM2 : q ≤ M := by linarith
+    have hqM3 : q ∣ M ! := Iff.mpr (Prime.dvd_factorial qPrime) hqM2
+    have hq1 : q ∣ 1 := Iff.mp (Nat.dvd_add_right hqM3) h1
+    apply Nat.Prime.not_dvd_one qPrime hq1
+  }
+  { assumption }
+  done
+
+
+
+-- but really, this is a proof about a *program* caled `biggerPrime`!
+
+def biggerPrime (M : ℕ) : ℕ := Nat.minFac (M ! + 1)
+
+#eval biggerPrime 7
+
+theorem biggerPrimeIsPrime : ∀ N, Nat.Prime (biggerPrime N) := by 
+  intro M
+  refine' minFac_prime _
+  have hn : M ! > 0 := factorial_pos M 
+  linarith 
+  done
+
+theorem biggerPrimeIsBigger : ∀ N, biggerPrime N ≥ N := by 
+  intro M
+  by_contra hqM
+  have h1 : (biggerPrime M) ∣ M ! + 1 := minFac_dvd _
+  have hqM2 : biggerPrime M ≤ M := by linarith
+  have hqM3 : biggerPrime M ∣ M ! :=
+    Iff.mpr (Prime.dvd_factorial (biggerPrimeIsPrime _)) hqM2
+  have hq1 : biggerPrime M ∣ 1 := Iff.mp (Nat.dvd_add_right hqM3) h1
+  apply Nat.Prime.not_dvd_one (biggerPrimeIsPrime _) hq1
+  done
+
+
+-- we can use our verified program to prove our original theorem
+theorem infinitude_of_primes2 : ∀ N, ∃ p ≥ N, Nat.Prime p := by 
+  intro N 
+  use biggerPrime N 
+  apply And.intro 
+  { exact biggerPrimeIsBigger _ }
+  { exact biggerPrimeIsPrime _ }
+  done 
+
+
