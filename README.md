@@ -40,6 +40,11 @@ code .
 ```
 But `File -> Open Folder...` works fine too.
 
+### Codespaces setup
+
+If you are using GitHub Codespaces for this class, you can ignore all of the above.
+Open your codespace and get to work; all of these setup steps are done for you!
+
 ### Pulling changes
 
 We will add files to this repository as the course progresses,
