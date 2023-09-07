@@ -34,9 +34,9 @@
   {"git":
    {"url": "https://github.com/robertylewis/lean4-autograder-main",
     "subDir?": null,
-    "rev": "a707860d1b1614e4134be8a0d85ee1692641b405",
+    "rev": "549a4982ea926ba637e79e0544a1d99e35d33f85",
     "name": "autograder",
-    "inputRev?": "a707860d1b1614e4134be8a0d85ee1692641b405"}},
+    "inputRev?": "549a4982ea926ba637e79e0544a1d99e35d33f85"}},
   {"git":
    {"url": "https://github.com/leanprover/std4",
     "subDir?": null,
