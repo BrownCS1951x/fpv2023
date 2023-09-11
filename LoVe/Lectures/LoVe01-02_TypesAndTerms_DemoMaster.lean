@@ -12,9 +12,6 @@ We start our journey by studying the basics of Lean, starting with terms
 (expressions) and their types. -/
 
 
-set_option autoImplicit false
-set_option tactic.hygienic false
-
 namespace LoVe
 
 
