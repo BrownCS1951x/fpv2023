@@ -383,4 +383,81 @@ end SorryTheorems
 
 
 
+/- 
+
+## A preview of Ch. 4 
+
+
+We just defined "basic" types like `ℕ`, and "compound"
+types like `list ℕ` and `ℕ → ℕ`.
+
+We even saw hints of "type parametricity," like for `id`:
+(Note: read `Sort` as `Type`.)
+-/
+
+def eid (α : Type) (a : α) : α := a
+#check eid
+
+
+/-
+But in general, every *term* has a *type* associated with it.
+Terms are on the left of the `:` and types are on the right.
+There was some weirdness here when we wrote `#check Type` and the answer
+was `Type 1`...
+
+
+
+Consider a function `pick` that take a number `n : ℕ` and that returns a number
+between 0 and `n`. Conceptually, `pick` has a dependent type, namely
+
+    `(n : ℕ) → {i : ℕ // i ≤ n}`
+
+We can think of this type as a `ℕ`-indexed family, where each member's type may
+depend on the index:
+
+    `pick n : {i : ℕ // i ≤ n}`
+
+This is a *type* that contains, or depends on, a (non-Type) *term*.
+
+-/
+
+#check Fin 10 
+#check (2 : Fin 10)
+
+#check (n : ℕ) → {i : ℕ // i ≤ n}
+
+
+/- Example of a term that depends on a term: -/
+
+
+/- Example of a term that depends on a type: -/
+
+
+/- Example of a type that depends on a type: -/
+
+
+
+
+/-
+
+Unless otherwise specified, a __dependent type__ means a type depending on a
+term. This is what we mean when we say that simple type theory does not support
+dependent types.
+
+In summary, there are four cases for `fun x ↦ t` in the calculus of inductive
+constructions (cf. Barendregt's `λ`-cube):
+
+Body (`t`) |              | Argument (`x`) | Description
+---------- | ------------ | -------------- | ----------------------------------
+A term     | depending on | a term         | Simply typed anonymous function
+A type     | depending on | a term         | Dependent type (strictly speaking)
+A term     | depending on | a type         | Polymorphic term
+A type     | depending on | a type         | Type constructor
+
+
+
+
+
+-/
+
 end LoVe
