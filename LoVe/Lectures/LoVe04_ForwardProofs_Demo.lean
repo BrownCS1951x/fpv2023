@@ -271,12 +271,36 @@ Unless otherwise specified, a __dependent type__ means a type depending on a
 term. This is what we mean when we say that simple type theory does not support
 dependent types.
 
+-/
+
+#check Fin 10 
+#check (2 : Fin 10)
+
+#check (n : ℕ) → {i : ℕ // i ≤ n}
+
+def depFun : (n : ℕ) → {i : ℕ // i ≤ n} :=
+fun n => ⟨0, by linarith⟩
+
+
+/- Example of a term that depends on a term: -/
+
+
+/- Example of a term that depends on a type: -/
+
+
+/- Example of a type that depends on a type: -/
+
+
+
+
+
+/-
 In summary, there are four cases for `fun x ↦ t` in the calculus of inductive
 constructions (cf. Barendregt's `λ`-cube):
 
 Body (`t`) |              | Argument (`x`) | Description
 ---------- | ------------ | -------------- | ----------------------------------
-A term     | depending on | a term         | Simply typed anonymous function
+A term     | depending on | a term         | anonymous function
 A type     | depending on | a term         | Dependent type (strictly speaking)
 A term     | depending on | a type         | Polymorphic term
 A type     | depending on | a type         | Type constructor
@@ -374,6 +398,36 @@ theorem And_swap_tactical (a b : Prop) :
 #print And_swap
 #print And_swap_raw
 #print And_swap_tactical
+
+/-
+
+We talked about the "type tower":
+
+-/
+
+#check Type 
+#check Type 1
+#check Type 2 
+
+#check Prop 
+
+/-
+`Prop` is, in fact, the foundation of this type tower.
+Sometimes, instead of `Prop`,   `Type`,   `Type 1`, ...
+     we'll talk about `Sort 0`, `Sort 1`, `Sort 2`, ...
+-/
+
+example : Prop = Sort 0 := 
+by rfl
+
+/- 
+We defined new types with the keyword `inductive`,
+listing all the ways we could construct values of that type.
+
+How do we define new `Prop`s?
+-/
+
+#check Or
 
 end ForwardProofs
 
