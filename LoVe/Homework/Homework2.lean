@@ -148,7 +148,7 @@ You may hear it said that equality is the smallest *reflexive*, *symmetric*,
 reflexivity, the rules for symmetry and transitivity are equivalent to a single
 rule, "symmtrans". -/
 
-axiom symmtrans {A : Type} {a b c : A} : a = b → c = b → a = c
+@[legalAxiom] axiom symmtrans {A : Type} {a b c : A} : a = b → c = b → a = c
 
 -- You can now use `symmtrans` as a rule.
 
@@ -190,7 +190,7 @@ def IsPythagoreanTriple (a b c : ℕ) : Prop :=
 `a`, `b`, and `c` form a Pythagorean triple, then `a`, `b`, and `c` can't all be
 perfect squares. Use the definitions below to prove this. -/
 
-axiom fermats_last_theorem (x y n : ℕ) :
+@[legalAxiom] axiom fermats_last_theorem (x y n : ℕ) :
   (n ≥ 3) → ¬∃ (z : ℕ), x^n + y^n = z^n
 
 def IsSquare (n : ℕ) : Prop := ∃ (u : ℕ), n = u^2
