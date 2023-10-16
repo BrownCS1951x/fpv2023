@@ -70,14 +70,12 @@ variable, `a` for an arithmetic expression, and `B` for a Boolean expression. -/
 
 #print State
 
---quo Stmt
 inductive Stmt : Type where
   | skip       : Stmt
   | assign     : String → (State → ℕ) → Stmt
   | seq        : Stmt → Stmt → Stmt
   | ifThenElse : (State → Prop) → Stmt → Stmt → Stmt
   | whileDo    : (State → Prop) → Stmt → Stmt
---ouq
 
 infixr:90 "; " => Stmt.seq
 
@@ -116,12 +114,10 @@ The program
 
 is modeled as -/
 
---quo sillyLoop
 def sillyLoop : Stmt :=
   Stmt.whileDo (fun s ↦ s "x" > s "y")
     (Stmt.skip;
      Stmt.assign "x" (fun s ↦ s "x" - 1))
---ouq
 
 
 /- ## Big-Step Semantics
@@ -179,7 +175,6 @@ predicate as opposed to a recursive function allows us to cope with
 nontermination (e.g., a diverging `while`) and nondeterminism (e.g.,
 multithreading). -/
 
---quo BigStep
 inductive BigStep : Stmt × State → State → Prop where
   | skip (s) :
     BigStep (Stmt.skip, s) s
@@ -200,11 +195,9 @@ inductive BigStep : Stmt × State → State → Prop where
     BigStep (Stmt.whileDo B S, s) u
   | while_false (B S s) (hcond : ¬ B s) :
     BigStep (Stmt.whileDo B S, s) s
---ouq
 
 infix:110 " ⟹ " => BigStep
 
---quo sillyLoop_from_1_BigStep
 theorem sillyLoop_from_1_BigStep :
   (sillyLoop, (fun _ ↦ 0)["x" ↦ 1]) ⟹ (fun _ ↦ 0) :=
   by
@@ -217,7 +210,6 @@ theorem sillyLoop_from_1_BigStep :
     { simp
       apply BigStep.while_false
       simp }
---ouq
 
 
 /- ## Properties of the Big-Step Semantics
@@ -230,11 +222,9 @@ Equipped with a big-step semantics, we can
 * reason about **concrete programs**, proving theorems relating final states `t`
   with initial states `s`. -/
 
---quo BigStep_deterministic
 theorem BigStep_deterministic {Ss l r} (hl : Ss ⟹ l)
     (hr : Ss ⟹ r) :
   l = r
---ouq
 :=
   by
     induction hl generalizing r with
@@ -273,19 +263,15 @@ theorem BigStep_deterministic {Ss l r} (hl : Ss ⟹ l)
       | while_false _ _ _ hB'           => rfl
 
 
---quo BigStep_terminates
 theorem BigStep_terminates {S s} :
   ∃t, (S, s) ⟹ t
---ouq
 :=
   sorry   -- unprovable
 
 /- We can define inversion rules about the big-step semantics: -/
 
---quo BigStep_skip_iff
 @[simp] theorem BigStep_skip_Iff {s t} :
   (Stmt.skip, s) ⟹ t ↔ t = s
---ouq
 :=
   by
     apply Iff.intro
@@ -296,10 +282,8 @@ theorem BigStep_terminates {S s} :
       rw [h]
       apply BigStep.skip }
 
---quo BigStep_assign_iff
 @[simp] theorem BigStep_assign_Iff {x a s t} :
   (Stmt.assign x a, s) ⟹ t ↔ t = s[x ↦ a s]
---ouq
 :=
   by
     apply Iff.intro
@@ -310,10 +294,8 @@ theorem BigStep_terminates {S s} :
       rw [h]
       apply BigStep.assign }
 
---quo BigStep_seq_iff
 @[simp] theorem BigStep_seq_Iff {S T s u} :
   (S; T, s) ⟹ u ↔ (∃t, (S, s) ⟹ t ∧ (T, t) ⟹ u)
---ouq
 :=
   by
     apply Iff.intro
@@ -331,11 +313,9 @@ theorem BigStep_terminates {S s} :
           apply BigStep.seq <;>
             assumption }
 
---quo BigStep_if_iff
 @[simp] theorem BigStep_if_Iff {B S T s t} :
   (Stmt.ifThenElse B S T, s) ⟹ t ↔
   (B s ∧ (S, s) ⟹ t) ∨ (¬ B s ∧ (T, s) ⟹ t)
---ouq
 :=
   by
     apply Iff.intro
@@ -360,12 +340,10 @@ theorem BigStep_terminates {S s} :
           apply BigStep.if_false <;>
             assumption }
 
---quo BigStep_while_iff
 theorem BigStep_while_Iff {B S s u} :
   (Stmt.whileDo B S, s) ⟹ u ↔
   (∃t, B s ∧ (S, s) ⟹ t ∧ (Stmt.whileDo B S, t) ⟹ u)
   ∨ (¬ B s ∧ u = s)
---ouq
 :=
   by
     apply Iff.intro
@@ -396,22 +374,18 @@ theorem BigStep_while_Iff {B S s u} :
           apply BigStep.while_false
           assumption}
 
---quo BigStep_while_true_iff
 @[simp] theorem BigStep_while_true_Iff {B S s u}
     (hcond : B s) :
   (Stmt.whileDo B S, s) ⟹ u ↔
   (∃t, (S, s) ⟹ t ∧ (Stmt.whileDo B S, t) ⟹ u)
---ouq
 :=
   by
     rw [BigStep_while_Iff]
     simp [hcond]
 
---quo BigStep_while_false_iff
 @[simp] theorem BigStep_while_false_Iff {B S s t}
     (hcond : ¬ B s) :
   (Stmt.whileDo B S, s) ⟹ t ↔ t = s
---ouq
 :=
   by
     rw [BigStep_while_Iff]
@@ -469,7 +443,6 @@ Derivation rules:
 
 There is no rule for `skip` (why?). -/
 
---quo SmallStep
 inductive SmallStep : Stmt × State → Stmt × State → Prop where
   | assign (x a s) :
     SmallStep (Stmt.assign x a, s) (Stmt.skip, s[x ↦ a s])
@@ -484,12 +457,10 @@ inductive SmallStep : Stmt × State → Stmt × State → Prop where
   | whileDo (B S s) :
     SmallStep (Stmt.whileDo B S, s)
       (Stmt.ifThenElse B (S; Stmt.whileDo B S) Stmt.skip, s)
---ouq
 
 infixr:100 " ⇒ " => SmallStep
 infixr:100 " ⇒* " => RTC SmallStep
 
---quo sillyLoop_from_1_SmallStep
 theorem sillyLoop_from_1_SmallStep :
   (sillyLoop, (fun _ ↦ 0)["x" ↦ 1]) ⇒*
   (Stmt.skip, (fun _ ↦ 0)) :=
@@ -515,7 +486,6 @@ theorem sillyLoop_from_1_SmallStep :
                   simp }
                 { simp
                   apply RTC.refl } } } } } } }
---ouq
 
 /- Equipped with a small-step semantics, we can **define** a big-step
 semantics:
@@ -536,10 +506,8 @@ The main disadvantage of small-step semantics is that we now have two relations,
 We can prove that a configuration `(S, s)` is final if and only if `S = skip`.
 This ensures that we have not forgotten a derivation rule. -/
 
---quo SmallStep_final
 theorem SmallStep_final (S s) :
   (¬ ∃T t, (S, s) ⇒ (T, t)) ↔ S = Stmt.skip
---ouq
 :=
   by
     induction S with
@@ -591,11 +559,9 @@ theorem SmallStep_final (S s) :
       apply Exists.intro s
       apply SmallStep.whileDo
 
---quo SmallStep_deterministic
 theorem SmallStep_deterministic {Ss Ll Rr}
     (hl : Ss ⇒ Ll) (hr : Ss ⇒ Rr) :
   Ll = Rr
---ouq
 :=
   by
     induction hl generalizing Rr with
@@ -628,21 +594,17 @@ theorem SmallStep_deterministic {Ss Ll Rr}
 /- We can define inversion rules also about the small-step semantics. Here are
 three examples: -/
 
---quo SmallStep_skip
 theorem SmallStep_skip {S s t} :
   ¬ ((Stmt.skip, s) ⇒ (S, t))
---ouq
 :=
   by
     intro h
     cases h
 
---quo SmallStep_seq_iff
 @[simp] theorem SmallStep_seq_Iff {S T s Ut} :
   (S; T, s) ⇒ Ut ↔
   (∃S' t, (S, s) ⇒ (S', t) ∧ Ut = (S'; T, t))
   ∨ (S = Stmt.skip ∧ Ut = (T, s))
---ouq
 :=
   by
     apply Iff.intro
@@ -675,11 +637,9 @@ theorem SmallStep_skip {S s t} :
           rw [hS, hUt]
           apply SmallStep.seq_skip }
 
---quo SmallStep_if_iff
 @[simp] theorem SmallStep_if_Iff {B S T s Us} :
   (Stmt.ifThenElse B S T, s) ⇒ Us ↔
   (B s ∧ Us = (S, s)) ∨ (¬ B s ∧ Us = (T, s))
---ouq
 :=
   by
     apply Iff.intro
@@ -792,10 +752,8 @@ theorem BigStep_of_RTC_SmallStep {Ss t} :
         apply BigStep_of_SmallStep_of_BigStep hST
         apply ih
 
---quo BigStep_iff_RTC_SmallStep
 theorem BigStep_Iff_RTC_SmallStep {Ss t} :
   Ss ⟹ t ↔ Ss ⇒* (Stmt.skip, t)
---ouq
 :=
   Iff.intro RTC_SmallStep_of_BigStep BigStep_of_RTC_SmallStep
 
