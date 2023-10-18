@@ -757,4 +757,52 @@ theorem BigStep_Iff_RTC_SmallStep {Ss t} :
 :=
   Iff.intro RTC_SmallStep_of_BigStep BigStep_of_RTC_SmallStep
 
+
+/- 
+## Parallelism (**optional**)
+
+Let's write down a small-step semantics for the parallel execution
+of `WHILE` programs on a single state.
+
+-/
+
+inductive parStep : ℕ → (List Stmt × State) → (List Stmt × State) → Prop
+| intro {Ss Ss' P P' st st' i}
+  (hi : i < Ss.length)
+  (hS : P = Ss.nthLe i hi) 
+  (hs : (P, st) ⇒ (P', st')): 
+    parStep i (Ss, st) (Ss', st')
+
+
+/-
+There's a diamond property we'd like to be true. 
+What does this mean?
+-/
+
+lemma parStepDiamond {i j Ss Ts Ts' s t t'}
+  (hi : i < Ss.length)
+  (hj : j < Ss.length)
+  (hij : i ≠ j)
+  (hT : parStep i (Ss, s) (Ts, t))
+  (hT' : parStep j (Ss, s) (Ts', (t'))) :
+    ∃ u Us, parStep j (Ts, t) (Us, u) ∧ 
+            parStep i (Ts', t') (Us, u) :=
+sorry
+
+
+
+
+
+
+
+
+
+
+
+/-
+Can we prove it? Can we fix it?
+-/
+
+
+
 end LoVe
