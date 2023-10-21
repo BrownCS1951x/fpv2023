@@ -201,7 +201,7 @@ Notice that we have specified that, under the hood, `SimpleQueue` is implemented
 as a `List`. **Do not change this!**
 
 As a reminder, your implementation should be *obviously correct*. (You can
-assume any `List` library fuctions "obviously" do what they're supposed to.
+assume any `List` library functions "obviously" do what they're supposed to.
 However, in the interest of simplicity and to make the proofs easier, we
 recommend limiting your use of library functions; our solution uses only one.)
 Do not worry about efficiency concerns -- the goal here is to provide a
