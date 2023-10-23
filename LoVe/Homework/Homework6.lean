@@ -158,7 +158,7 @@ to the one that binds the variable you're referring to. Here are some examples
 (we modify our notation a bit, since our variables no longer have string names):
 
 * `(λ. 0)` is equivalent to `(λx. x)`
-* `(λ. λ. 1)` is equivalent to `(λx. λy. y)`
+* `(λ. λ. 1)` is equivalent to `(λx. λy. x)`
 * `(λ. λ. 0 1)` is equivalent to `(λx. λf. f x)`
 
 With the power of de Bruijn indices, you might wonder why we even need ABTs
