@@ -2,7 +2,7 @@ import LoVe.LoVelib
 import AutograderLib
 
 
-/- # FPV Homework 9: Operational Semantics
+/- # FPV Homework 6: Operational Semantics
 
 Homework must be done in accordance with the course policies on collaboration
 and academic integrity.
