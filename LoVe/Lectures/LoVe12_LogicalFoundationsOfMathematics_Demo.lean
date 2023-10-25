@@ -1,7 +1,7 @@
 /- Copyright © 2018–2023 Anne Baanen, Alexander Bentkamp, Jasmin Blanchette,
 Johannes Hölzl, and Jannis Limperg. See `LICENSE.txt`. -/
 
-import LoVe.LoVe06_InductivePredicates_DemoMaster
+import LoVe.Lectures.LoVe06_InductivePredicates_Demo
 
 
 /- # LoVe Demo 12: Logical Foundations of Mathematics
@@ -10,9 +10,6 @@ We dive deeper into the logical foundations of Lean. Most of the features
 described here are especially relevant for defining mathematical objects and
 proving theorems about them. -/
 
-
-set_option autoImplicit false
-set_option tactic.hygienic false
 
 namespace LoVe
 
