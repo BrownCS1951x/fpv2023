@@ -41,7 +41,7 @@ equality predicate we use when we write the `=` sign. We define the custom
 notation `≡` for our equality `Type` to avoid confusion with the `Prop`.
 
 Just as with `Eq`, the type `EqType x y` (aka `x ≡ y`) is inhabited just when
-`x` and `y` are (definitionally) equal.
+`x` and `y` are (provably) equal.
 -/
 
 inductive EqType {α : Type} : α → α → Type
@@ -54,9 +54,9 @@ So far, everything we've done is completely permitted by Lean's type theory. Now
 we make our "illegal" declaration that, in essence, encodes the idea that we
 have `Type u : Type u` for some `u`.
 
-Given a function like `f := λ X => X × X : Type → Type`, `∀ X, f X` has type
-`Type 1`. In general, `∀` produces a type one level higher in the type hierarchy
-than its arguments.
+Given a function `f : Type → Type` (say `f := λ (X : Type) => X × X`), the type
+`∀ X, f X` has type `Type 1`. In general, `∀` produces a type one level higher
+in the type hierarchy than its arguments.
 
 If we collapsed the universe hierarchy, though, `∀ X, f X` would simply have
 type `Type`.
@@ -113,11 +113,11 @@ speaking, `V.sup X f : V` corresponds to the set given by `{f x | x : X}`.
 
 To encode this notion of sethood, we declare below a membership predicate on
 such sets. The type `Mem elt set` (or `elt ∈ set`), where `set = V.sup X f`, is
-inhabited just when there is some `x' : X` such that `v = f x'`. Notice that
+inhabited just when there is some `x' : X` such that `elt = f x'`. Notice that
 this matches our set representation above.
 
-An element of `Mem v S` consists of a *dependent pair* `⟨x', p⟩`, where `p` is a
-proof that `v = f x'` (notice how the type of `p` depends on `x'`).
+An element of `Mem elt set` consists of a *dependent pair* `⟨x', p⟩`, where `p`
+is a proof that `elt = f x'` (notice how the type of `p` depends on `x'`).
 
 The commented declaration below represents how we would define `Mem` if we had
 defined `V` using the standard `inductive` declaration we gave before. Since we
