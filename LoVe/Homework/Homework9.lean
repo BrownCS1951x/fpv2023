@@ -1,3 +1,4 @@
+import AutograderLib
 import LoVe.Lectures.LoVe14_RationalAndRealNumbers_Demo
 import Mathlib.Data.Nat.Parity
 
@@ -36,6 +37,7 @@ by
   calc 0 < (x / 2) / 2 := half_pos hx2
        _ = x / 4 := by ring
 
+@[autograded 4]
 lemma sum_is_cauchy (f g : ℕ → ℚ) (hf : IsCauchySeq f) (hg : IsCauchySeq g) :
   IsCauchySeq (λ n => f n + g n) :=
   sorry
@@ -90,7 +92,7 @@ def e : EONat := ⟦0⟧
 def o : EONat := ⟦1⟧
 
 /- 3.2 (2 points). Prove that these are the only two elements of `EONat`. -/
-lemma e_or_o (x : EONat) : x = e ∨ x = o :=
+@[autograded 2] lemma e_or_o (x : EONat) : x = e ∨ x = o :=
   sorry
 
 /- 3.3 (2 points). Lift the addition function on ℕ to `EONat`.
