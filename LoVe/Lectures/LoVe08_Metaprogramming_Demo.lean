@@ -43,10 +43,6 @@ Advantages of Lean's metaprogramming framework:
   encouraging a style where formal libraries and supporting automation are
   developed at the same time. -/
 
-
-set_option autoImplicit false
-set_option tactic.hygienic false
-
 open Lean
 open Lean.Meta
 open Lean.Elab.Tactic
@@ -88,12 +84,12 @@ theorem repeat'_first_example :
 /- `all_goals` applies its argument exactly once to each goal. It succeeds only
 if the argument succeeds on **all** goals. -/
 
-theorem all_goals_example :
-  Even 4 ∧ Even 7 ∧ Even 3 ∧ Even 0 :=
-  by
-    repeat' apply And.intro
-    all_goals apply Even.add_two   -- fails
-    repeat' sorry
+-- theorem all_goals_example :
+--   Even 4 ∧ Even 7 ∧ Even 3 ∧ Even 0 :=
+--   by
+--     repeat' apply And.intro
+--     all_goals apply Even.add_two   -- fails
+--     repeat' sorry
 
 /- `try` transforms its argument into a tactic that never fails. -/
 
@@ -257,7 +253,7 @@ We can create literal names with backticks:
 #eval `Even          -- wrong
 #eval `LoVe.Even     -- suboptimal
 #eval ``Even
-#eval ``EvenThough   -- fails
+-- #eval ``EvenThough   -- fails
 
 
 /- ### Constants -/
@@ -413,9 +409,9 @@ theorem abc_c_again (a b c : Prop) (h : a ∧ b ∧ c) :
   c :=
   by destruct_and h
 
-theorem abc_ac (a b c : Prop) (h : a ∧ b ∧ c) :
-  a ∧ c :=
-  by destruct_and h   -- fails
+-- theorem abc_ac (a b c : Prop) (h : a ∧ b ∧ c) :
+--   a ∧ c :=
+--   by destruct_and h   -- fails
 
 
 /- ## Third Example: A Direct Proof Finder
