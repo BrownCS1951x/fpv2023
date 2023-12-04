@@ -10,7 +10,7 @@ Homework must be done in accordance with the course policies on collaboration
 and academic integrity.
 
 Replace the placeholders (e.g., `:= sorry`) with your solutions. When you are
-finsihed, submit *only* this file to the appropriate Gradescope assignment.
+finished, submit *only* this file to the appropriate Gradescope assignment.
 
 When you submit to Gradescope, problems tagged as `autograded` will be
 autograded. *This is not your final grade*; a significant portion of the
@@ -125,7 +125,7 @@ def appendImplicit {α : Type} : List α → List α → List α
 Notice that we did not need to give the argument `ℕ` or `Bool` to 
 `appendImplicit`.
 
-Prefixing a definition name with `@` gives the corresponding defintion in
+Prefixing a definition name with `@` gives the corresponding definition in
 which all implicit arguments have been made explicit. This is useful in
 situations where Lean cannot work out how to instantiate the implicit
 argument. -/

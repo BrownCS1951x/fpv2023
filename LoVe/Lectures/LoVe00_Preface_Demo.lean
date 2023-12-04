@@ -140,7 +140,7 @@ theorem infinitude_of_primes : ∀ N, ∃ p ≥ N, Nat.Prime p := by
 
 
 
--- but really, this is a proof about a *program* caled `biggerPrime`!
+-- but really, this is a proof about a *program* called `biggerPrime`!
 
 def biggerPrime (M : ℕ) : ℕ := Nat.minFac (M ! + 1)
 
